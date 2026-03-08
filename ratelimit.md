@@ -1,5 +1,5 @@
-webhooks being dropped due to the legacy rate limit
-======
+Webhooks being dropped due to the legacy rate limit
+==
 
 Webhooks were being dropped under congestion due to legacy rate limiting and retry behavior.
 
@@ -45,7 +45,7 @@ Retry semantics must distinguish between admission failures and delivery failure
 Approach
 ======
 
-## Immediate Fix (Current PR)
+## Immediate Fix 
 
 ## Before
 
@@ -64,9 +64,8 @@ When a webhook job executed:
 - Retry logic was duplicated and hard to reason about.
 - System recovery under load was inefficient.
 
----
 
-## After (This PR)
+## After 
 
 ### 1. Enforced Concurrency Cap (Token-Based Semaphore)
 
@@ -78,8 +77,7 @@ if token_acquired:
 else:
     reenqueue_with_delay()
     return
-
----
+```
 
 ## Follow-Up Plan (Correct Long-Term Semantics)
 
