@@ -47,39 +47,37 @@ Approach
 
 ## Immediate Fix (Current PR)
 
-**Goal:** Stabilize behavior without introducing risky schema changes.
+## Before
 
-### Changes
+When a webhook job executed:
 
-1. **Keep the existing job schema**
-   - No new required fields (rollback-safe).
-   - No new job type introduced.
+1. Attempt delivery.
+2. If lock/token unavailable → retry logic.
+3. If merchant HTTP failure → retry logic.
+4. Both failure types incremented `failure_count`.
+5. After ~15 attempts (~23 hours), job stopped retrying.
 
-2. **Maintain per-merchant concurrency limits**
-   - Token-based semaphore around delivery.
-   - Prevents overwhelming merchants.
-   - No worker sleeping; retries re-enqueue with delay.
+### Problems
 
-3. **Retain current `failure_count` cutoff (~23h / 15 attempts)**
-   - Applies to both failure types for now.
-   - On exhaustion:
-     - Non-paging Sentry alert
-     - DogStats metric emitted
-     - Datadog monitor (to be terraformed) to page Webhooks/IPS
+- Workers could sleep or loop during lock contention.
+- Internal lock failures counted toward retry exhaustion.
+- Retry logic was duplicated and hard to reason about.
+- System recovery under load was inefficient.
 
-4. **Refactor retry logic**
-   - Simplify structure.
-   - Reduce duplicated retry blocks.
-   - Clarify failure handling paths.
+---
 
-### Result
+## After (This PR)
 
-- Reduced webhook drops under congestion.
-- Controlled merchant concurrency.
-- Improved observability.
-- Safe rollback (no schema incompatibility).
+### 1. Enforced Concurrency Cap (Token-Based Semaphore)
 
-This addresses the immediate instability while minimizing deployment risk.
+Before delivering:
+
+```pseudo
+if token_acquired:
+    deliver_webhook()
+else:
+    reenqueue_with_delay()
+    return
 
 ---
 
