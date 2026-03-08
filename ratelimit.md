@@ -15,6 +15,22 @@ The system lacked a clear separation between:
 - **Admission control** (internal capacity constraints)
 - **Delivery failure** (external merchant/system issues)
 
+The core architectural issue
+We modeled:
+
+error → increment failure_count → backoff → give up after N
+
+Instead of:
+
+```
+if internal contention:
+    delay and retry (does not count toward delivery exhaustion)
+
+if merchant delivery failure:
+    increment delivery retry count
+    apply bounded retry policy
+    eventually DLQ
+```
 
 Advise:
 ======
