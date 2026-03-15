@@ -83,3 +83,14 @@ How would you detect and route requests for these hot keys differently—would y
 Thanks for updating the diagram to show the primary cache, replicas, and their relationship.
 
 Where in this architecture would you place the sharding logic and the pub/sub mechanism for cache update notifications?
+
+### Feedback
+# System Design Feedback Summary
+
+| Section | Rating | Positives | Areas To Improve |
+|--------|--------|-----------|------------------|
+| **Problem Identification** | Average | Identified low latency as a top priority. Mentioned high availability, consistency, and security. | Functional requirements were not clearly listed (GET/SET + eviction). Non-functional requirements were not structured. Introduced conflicting consistency requirements (strong vs eventual). Missing capacity planning such as QPS, item size, memory estimates, and hit rate targets. |
+| **High-Level Design** | Below Average | Proposed replication and eventually mentioned consistent hashing. Suggested a pub/sub model (e.g., Redis) for propagating updates. | Architecture incomplete for distributed cache. Missing cache client/library on app servers, consistent hashing ring for node selection, and defined eviction subsystem per node. Started with load balancer and sticky sessions instead of consistent hashing. Local + global cache introduced coherence complexity without defined invalidation guarantees. Diagram implied cache directly querying DB instead of cache-aside pattern. |
+| **Detailed Design** | Unsatisfactory | Mentioned TTL-based expiration. Recognized need for serialization/deserialization and hash-based storage. | Missing internal data structure details (hash map + doubly linked list for LRU, frequency buckets for LFU). Eviction policy inconsistent (LRU then LFU without explanation). Hot-key mitigation incorrect ("shard them"). Consistency model vague (no write-through/write-back definition). Security explanation weak (no TLS/mTLS, ACLs, auth, encryption). API/interface not defined (protocol, retries, client behavior). |
+| **Trade-offs & Improvements** | Below Average | Attempted to address HA via replication and staleness via TTL. Recognized scaling needs consistent hashing. | Trade-offs not deeply analyzed. Flipped between strong consistency, eventual consistency, and synchronous replicas without discussing latency/availability impacts. Pub/sub design lacked discussion of message loss, replay, consumer lag, or reconciliation. Failure modes not discussed (node loss, resharding, cache stampede, cold start, replica lag). |
+
