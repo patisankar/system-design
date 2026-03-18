@@ -1,3 +1,13 @@
+# overview
+critical building blocks of cache (cache client, key-to-node hashing, eviction internals, invalidation guarantees)
+## skils
+Problem Scoping and Requirements Gathering
+Core Architectural Design
+Analytical and Strategic Skills
+Data Model and Database Design
+System Optimization
+Effective Communication and Articulation
+
 ### functional requirement
 Main users are internal and end-user applications, 2millios per hour
 
