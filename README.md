@@ -1,4 +1,5 @@
 # Minimum Skills
+https://www.allthingsdistributed.com/2016/03/10-lessons-from-10-years-of-aws.html
 
 ## 1. Core Distributed Systems (Non-negotiable)
 - Consistency models
