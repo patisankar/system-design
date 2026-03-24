@@ -1,11 +1,5 @@
 # Debugging a Slow Spring Boot Service in Production
 
-First I’d quantify the slowdown using p95/p99 latency, traffic, error rate, CPU, memory, and saturation metrics. Then I’d use tracing and metrics to localize whether time is spent in the Spring Boot app, database, or downstream calls. 
-
-I’d check JVM health, GC, thread pools, and Hikari connection pool metrics, because many latency issues come from contention or pool exhaustion. I’d compare recent deploys, config changes, and traffic changes to identify what changed. If observability isn’t enough, I’d take thread dumps or a safe profiler snapshot. 
-
-In parallel, I’d mitigate user impact through rollback, scaling, feature flags, or traffic shedding. After restoring service, I’d fix the root cause and add guards like better alerts, caching, indexes, circuit breakers, or capacity tuning.
-
 
 **Confirm → Isolate → Measure → Narrow → Mitigate → Fix → Prevent**
 
@@ -210,6 +204,6 @@ After stabilization:
 
 ---
 
-## 14. Interview Summary (Concise)
+## 14. Summary (Concise)
 
 > First, I’d validate the issue using latency, error rate, and resource metrics. Then I’d use tracing and metrics to identify whether the latency is in the application, database, or external services. I’d check JVM health, thread pools, and connection pools. I’d correlate with recent changes like deployments or traffic spikes. If needed, I’d take thread dumps or profiler snapshots. In parallel, I’d mitigate impact via rollback, scaling, or feature flags. Finally, I’d fix the root cause and add monitoring and resilience mechanisms to prevent recurrence.
