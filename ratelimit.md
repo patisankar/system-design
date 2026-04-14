@@ -1,5 +1,6 @@
 Webhooks being dropped due to the legacy rate limit
 ==
+[Ref](https://www.youtube.com/watch?v=U-JoPkJJYso)
 
 Webhooks were being dropped under congestion due to legacy rate limiting and retry behavior.
 
