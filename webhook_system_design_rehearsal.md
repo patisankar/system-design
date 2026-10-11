@@ -92,3 +92,5 @@ Avoid vague phrases such as “some kind of dedup.” Say “consumer-side dedup
 ## Next rehearsal
 
 Answer each question aloud without reading the sample answer. Keep each response to 20–30 seconds, then finish with the thirty-second design summary.
+
+
