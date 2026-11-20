@@ -125,6 +125,8 @@ https://www.allthingsdistributed.com/2016/03/10-lessons-from-10-years-of-aws.htm
 Idempotency keys for financial operations
 [Stripe Doc](https://docs.stripe.com/billing/revenue-recovery/recovery-analytics)
 
+[Discover API docs](https://partner.discoverglobalnetwork.com/going-live-with-discover?tab=developer-guide#5-how-to-use-oauth-2--client-credentials)
+
 [GraphQL](https://relay.dev/docs/)
 
 Audit trails
